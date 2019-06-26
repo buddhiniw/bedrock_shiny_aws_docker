@@ -1,0 +1,122 @@
+---
+output: 
+  html_document:
+    fig_caption: yes
+  pandoc_args: [
+      "--number-sections",
+      "--number-offset=1"
+    ]
+
+header-includes:
+- \usepackage{pdflscape}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+
+params:
+  dat_data: NA
+  dat_file: NA
+
+---
+<style type="text/css">
+
+h1.title {
+  font-size: 24px;
+  font-weight: normal;
+}
+h3 {
+  font-weight:normal;
+}
+.reveal section img { 
+  background:none; 
+  border:none; 
+  box-shadow:none; 
+  }
+</style>
+
+```{r include=F}
+knitr::opts_chunk$set(comment = NA)
+```
+
+
+```{r,echo=F,warning=F,message=F, error=F}
+library(caret)
+library(knitr)
+library(elasticnet)
+library(DMwR)
+library(prettyR)
+library(xtable)
+library(kableExtra)
+```
+
+```{r,echo=F}
+dat <- params$dat_data
+``` 
+
+```{r cache=F, echo=F}
+read_chunk('enet_model.R')
+read_chunk('help_functions.R')
+```
+
+
+```{r, results='asis',echo=F}
+# Load data file
+dat <- params$dat_data
+dataIn <- dat
+indx <- sapply(dataIn, is.factor)
+dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
+```
+
+
+
+# Summary Statistics
+```{r  descriptive_stat, results='asis', echo = F, message=F}
+```
+
+```{r  descriptive_stat_html_table, results='asis', echo = F, message=F}
+# Summary of unscaled predictor (x) variables 
+```
+```{r standardize_xy, echo=F}
+# standardiize xy variables
+```
+
+
+# Correlations Between Predictors
+```{r corr_plot, echo=F, fig.height=12,fig.width=12}
+# Plot the correlations between predictors
+```
+
+
+# Tuning Parmenter Selection Using Leave-One-Out Cross Validation
+```{r loocv, echo=F, warning = F, fig.width=7,fig.height=6}
+# results from Loocv
+```
+`r sprintf("From above plot, lambda =%.2f and s =%.2f gives the minimum RMSE model."
+                        ,best.lambda, best.fraction) `
+
+
+# Variable Importance
+```{r var_importance,results='asis',echo=F,warning=F, fig.width=5,fig.height=5}
+```
+`r sprintf("\nRank of variables by Importance using Caret R Package. All measures of importance are scaled to have a maximum value of 100.")`
+
+
+```{r  best_model, echo = F,warning = F}
+```
+
+# Model Prediction
+```{r predict_price, echo = F, warning = F}
+```
+```{r predict_price_html, echo = F, warning = F}
+```
+
+# Standardized Model Coefficients
+```{r  enet_coeff, echo = F, warning = F}
+```
+```{r  enet_coeff_html_table, echo = F, warning = F}
+```
+`r sprintf("NOTE: errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.")`
+
+
+
