@@ -13,6 +13,7 @@ header-includes:
 - \usepackage{longtable}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
+- \usepackage[printwatermark]{xwatermark}
 
 params:
   dat_data: NA
@@ -33,12 +34,30 @@ h3 {
   border:none; 
   box-shadow:none; 
   }
+  
+  
+.watermark {
+  opacity: 0.2;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  font-size: 500%;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  align: center
+  color: #00407d;
+}  
+  
 </style>
+
+<div class="watermark">
+BEDROCK STAT ANALYTICS
+(PAY TO REMOVE)
+</div>
 
 ```{r include=F}
 knitr::opts_chunk$set(comment = NA)
 ```
-
 
 ```{r,echo=F,warning=F,message=F, error=F}
 library(caret)
@@ -48,6 +67,7 @@ library(DMwR)
 library(prettyR)
 library(xtable)
 library(kableExtra)
+
 ```
 
 ```{r,echo=F}
@@ -71,12 +91,15 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 
 
 # Summary Statistics
-```{r  descriptive_stat, results='asis', echo = F, message=F}
+```{r  descriptive_stat, results='asis', echo = F, message=F, warning=FALSE}
 ```
 
 ```{r  descriptive_stat_html_table, results='asis', echo = F, message=F}
 # Summary of unscaled predictor (x) variables 
 ```
+`r sprintf("Note:\n 
+The Mean and Std. Dev. are meaningless for categorical variables.") `
+
 ```{r standardize_xy, echo=F}
 # standardiize xy variables
 ```
@@ -92,14 +115,17 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r loocv, echo=F, warning = F, fig.width=7,fig.height=6}
 # results from Loocv
 ```
-`r sprintf("From above plot, lambda =%.2f and s =%.2f gives the minimum RMSE model."
+`r sprintf("Note:\n 
+From above plot, lambda =%.2f and s =%.2f give the minimum RMSE model."
                         ,best.lambda, best.fraction) `
 
 
 # Variable Importance
 ```{r var_importance,results='asis',echo=F,warning=F, fig.width=5,fig.height=5}
 ```
-`r sprintf("\nRank of variables by Importance using Caret R Package. All measures of importance are scaled to have a maximum value of 100.")`
+
+`r sprintf("Note:\n 
+All measures of importance are scaled to have a maximum value of 100.")`
 
 
 ```{r  best_model, echo = F,warning = F}
@@ -116,7 +142,10 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```
 ```{r  enet_coeff_html_table, echo = F, warning = F}
 ```
-`r sprintf("NOTE: errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.")`
+`r sprintf("Notes:\n
+1) Errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.\n   
+2) Some predictor varaiables may be set to 0 during and/or maybe entrirely removed from the final model based on the optimum tuning parameter values.\n
+3) Please, refer to Zou, H. and Hastie, T. (2005) Regularization and Variable Selection via the Elastic Net. Journal of the Royal Statistical Society, Series B, 67, Part 2, 301-320 for a further explanation.\n")`
 
 
 

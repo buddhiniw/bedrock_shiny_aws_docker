@@ -11,6 +11,7 @@ output:
     ]
 
 header-includes:
+- \usepackage{caption}
 - \usepackage{pdflscape}
 - \usepackage{booktabs}
 - \usepackage{longtable}
@@ -65,6 +66,10 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r  descriptive_stat_pdf_table, results='asis', echo = F, message=F}
 # Summary of unscaled predictor (x) variables 
 ```
+
+`r sprintf("Note:\n 
+The Mean and Std. Dev. are meaningless for categorical variables.") `
+
 ```{r standardize_xy, echo=F}
 # standardiize xy variables
 ```
@@ -84,10 +89,14 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r var_importance, echo=F,fig.height=10,fig.width=10}
 # get varible importance
 ```
+
+`r sprintf("Note:\n 
+All measures of importance are scaled to have a maximum value of 100.")`
+
 ```{r  best_model, echo = F}
 ```
 
-
+\newpage
 # Model Prediction
 ```{r predict_price, echo = F, warning = F}
 ```
@@ -95,19 +104,21 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```
 
 
+\newpage
 # Standardized Model Coefficients
 ```{r  ols_coeff, echo = F}
 ```
 ```{r  ols_coeff_pdf_table, results ='asis', echo = F}
 ```
 
+\captionsetup[table]{labelformat=empty}
 
 \blandscape 
-```{r, echo=FALSE}
+```{r, echo=FALSE, tab.cap = NULL}
 knitr::kable(dat, 
              format = "latex",
              booktabs = TRUE,
-             caption = "APPENDIX : Raw data table") %>%
+             caption = "Appendix 1: Raw Data") %>%
 kableExtra::kable_styling(latex_options = c("repeat_header"), font_size = 7) 
 ``` 
 \elandscape 

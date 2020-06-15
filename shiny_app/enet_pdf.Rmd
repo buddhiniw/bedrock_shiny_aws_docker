@@ -11,6 +11,7 @@ output:
     ]
 
 header-includes:
+- \usepackage{caption}
 - \usepackage{pdflscape}
 - \usepackage{booktabs}
 - \usepackage{longtable}
@@ -84,6 +85,9 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r  descriptive_stat_pdf_table, results='asis', echo = F, message=F}
 # Sumary of unscaled predictor (x) variables  
 ```
+`r sprintf("Note:\n 
+The Mean and Std. Dev. are meaningless for categorical variables.") `
+
 ```{r standardize_xy, echo=FALSE}
 # standardiize xy variables
 ```
@@ -97,7 +101,8 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r loocv, echo=F, warning = F, fig.width=7,fig.height=6}
 # results from Loocv
 ```
-`r sprintf("From above plot, lambda =%.2f and s =%.2f gives the minimum RMSE model."
+`r sprintf("Note:\n 
+From above plot, lambda =%.2f and s =%.2f give the minimum RMSE model."
                         ,best.lambda, best.fraction) `
 
 
@@ -105,31 +110,40 @@ dataIn[indx] <- lapply(dataIn[indx], function(x) as.numeric(x))
 ```{r var_importance,results='asis',echo=F,warning=F, fig.width=5,fig.height=5}
 ```
 
-Rank of variables by Importance using Caret R Package. All measures of importance are scaled to have a maximum value of 100.
+`r sprintf("Note:\n 
+All measures of importance are scaled to have a maximum value of 100.") `
+
 
 ```{r  best_model, echo = F}
 ```
 
+\newpage
 # Model Prediction
 ```{r predict_price, echo = F, warning = F}
 ```
 ```{r predict_price_pdf, results ='asis', echo = F, warning = F}
 ```
 
+\newpage
 # Standardized Model Coefficients
 ```{r  enet_coeff, echo = F, results='asis', echo = FALSE}
 ```
 ```{r  enet_coeff_pdf_table, echo = F, results='asis', echo = FALSE}
 ```
-NOTE errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.
 
+`r sprintf("Notes:\n
+1) Errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.\n   
+2) Some predictor varaiables may be set to 0 during and/or maybe entrirely removed from the final model based on the optimum tuning parameter values.\n
+3) Please, refer to Zou, H. and Hastie, T. (2005) Regularization and Variable Selection via the Elastic Net. Journal of the Royal Statistical Society, Series B, 67, Part 2, 301-320 for a further explanation.\n")`
+
+\captionsetup[table]{labelformat=empty}
 
 \blandscape 
-```{r, echo=FALSE}
+```{r, echo=FALSE, tab.cap = NULL}
 knitr::kable(dat, 
              format = "latex",
              booktabs = TRUE,
-             caption = "APPENDIX : Raw data table") %>%
+             caption = "Appendix 1: Raw Data") %>%
 kableExtra::kable_styling(latex_options = c("repeat_header"), font_size = 7) 
 ``` 
 \elandscape 

@@ -20,19 +20,24 @@ options(knitr.table.format = "html")
 # Descriptive statistics from unscaled data
 ###################################################################
 # Get the original data frame minus the test data set
-df<-dataIn[1:(nrow(dataIn)-1),]
-data <- as.data.frame(describe(df ,num.desc=c("valid.n","mean","sd","min","max"))$Numeric)
-data.t <- as.matrix(t(data))
+data<-dataIn[1:(nrow(dataIn)-1),]
+data1 <- as.data.frame(describe(data ,num.desc=c("valid.n","mean","sd","min","max"))$Numeric)
+
+data.t <- as.matrix(t(data1))
 data.t <- formatC(data.t, digits = 2, format = "d", flag = "0")
 colnames(data.t) <- c("N", "Mean", "Std. Dev.", "Min","Max")
 bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
 
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("",
+                      "Variable & N & Mean & Std. Dev. & Min & Max \\\\\n")
 
 ## @knitr descriptive_stat_pdf_table
-print(xtable(data.t,
-             align= "|l|c|r|r|r|r|",
-             caption = "Summary statistics. Note that Mean and Std. Dev. are meaningless for categorical variables."),
+print(xtable(data.t,align= "|l|c|r|r|r|r|"),
       comment=FALSE,
+      add.to.row = addtorow, 
+      include.colnames = FALSE,
       sanitize.colnames.function=bold,
       sanitize.rownames.function=bold,
       booktabs=F,
@@ -57,8 +62,15 @@ bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
 data.c <- formatC(data.c, digits = 3, format = "f", flag = "0")
 colnames(data.c) <- c("Estimate")
 bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
+
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("",
+                      "Variable & Estimate \\\\\n")
 print(xtable(data.c,
-             align = "|l|r|"),
+      align = "|l|r|"),
+      add.to.row = addtorow, 
+      include.colnames = FALSE,
       comment=FALSE,
       sanitize.colnames.function=bold,
       sanitize.rownames.function=bold,
@@ -82,8 +94,9 @@ kable(data.c)%>%
 
 ## @knitr ols_coeff_pdf_table
 data.t <- as.matrix(data.c)
+
 data.t <- formatC(data.t, digits = 2, format = "d", flag = "0")
-colnames(data.t) <- c("Term", "Estimate", "Std. Error.", "Statistic","P Value")
+colnames(data.t) <- c("Variable", "Estimate", "Std. Error.", "Statistic","P Value")
 bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
 print(xtable(data.t,
              align = "|l|r|r|r|r|r|"),
@@ -106,6 +119,7 @@ rownames(data.p) <- c("")
 bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
 #data.p <-as.data.frame(data.p)
 ## @knitr predict_price_pdf
+
 print(xtable(data.p,
              align = "|l|r|r|r|"),
       inculde.rownames = FALSE,

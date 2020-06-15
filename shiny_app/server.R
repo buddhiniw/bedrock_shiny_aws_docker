@@ -61,7 +61,8 @@ shinyServer(function(input, output, session) {
           mainPanel(
             # Output: Tabset for instructions, raw data and analysis results
             tabsetPanel(id = "tabs",
-                        tabPanel("Instructions", pre(includeText("format.txt")))
+                        tabPanel("Home", pre(includeText("introduction.txt"))),
+                        tabPanel("Instructions", pre(includeText("instructions.txt")))
                         )
           )
         )
@@ -93,7 +94,7 @@ shinyServer(function(input, output, session) {
       # data quality is good so show the data file in a new tab
       clearTabs("Input Data")
       clearTabs("Results")
-      
+
       tablist <<-c("Instructions")
       insertTab(inputId = "tabs",
                 tabPanel("Input Data", renderTable(datasetInput())),

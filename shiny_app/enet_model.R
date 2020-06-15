@@ -97,25 +97,34 @@ corrplot::corrplot(cor(as.matrix(dataIn.x)),method = "number",type = "upper",num
 # The chosen λ2 is the one giving the smallest CV error.
 ###################################################################
 
-# Set s and lambda grid 
-#lambda.grid <- 10^seq(5,-5,length=100)
-lambda.grid <- c(0,0.01,0.1,1,10,100)
-
-#lambda.grid <- seq(0,10,by = 1)
-s.grid <- seq(0,1,by=0.05)
-
-# Use leave-one-out-cross-validation method for cross-validation.
-# Using RMSE
-train.control = trainControl(method = "LOOCV")
-
-# Setup serach grid for s and lambda
-#search.grid <- expand.grid(.alpha = alpha.grid, .lambda = lambda.grid)
-search.grid <- expand.grid(.fraction = s.grid, .lambda = lambda.grid)
 
 # Full dataset after scaling
 dataIn.scaled <- cbind(y,x)
 # Remove NA entries
 dataIn.scaled <- na.omit(dataIn.scaled)
+
+# Set s and lambda grid (tuning parameters)
+# Ref: https://web.stanford.edu/~hastie/Papers/B67.2%20(2005)%20301-320%20Zou%20&%20Hastie.pdf
+#
+# If only training data are available, tenfold cross-validation (CV) is a popular method
+# for estimating the prediction error and comparing different models
+# S -  is the ratio of the L1 norm of the coefficient vector, relative to the norm
+#      at the full LS solution and it is always between 0 and 1.
+# Lambda (Lambda-2) -  Typically first pick a (relatively small) grid of values for λ2, say
+# .0, 0:01, 0:1, 1, 10, 100/. Then, for each λ2, algorithm LARS-EN produces the entire solution
+# path of the elastic net. The other tuning parameter (λ1, s or k) is selected by tenfold CV. The
+# chosen λ2 is the one giving the smallest CV error.
+
+lambda.grid <- c(0,0.01,0.1,1,10,100)
+s.grid <- seq(0,1,by=0.05)
+
+# Here we will use leave-one-out-cross-validation method for cross-validation instead of 10-fold CV.
+# Using RMSE
+train.control = trainControl(method = "LOOCV")
+
+# Setup serach grid for s and lambda
+search.grid <- expand.grid(.fraction = s.grid, .lambda = lambda.grid)
+
 
 # perfrom cross-validated forecasting of SellingPrice using all features
 set.seed(42)
@@ -143,14 +152,23 @@ best.lambda <- train.enet$bestTune$lambda
 ###################################################################
 ## @knitr var_importance
 plot(varImp(train.enet))
+#print(varImp(train.enet))
+
+# Test plot to check coefficents
+#model <- enet(x, y,lambda=0.1)
+#plot(model, xvar =  "fraction", use.color = TRUE)
+
+
 
 ## @knitr best_model
 # Get model prediction error(RMSE) from the best tune
+#print(train.enet$results)
 best = which(rownames(train.enet$results) == rownames(train.enet$bestTune))
 best.result = train.enet$results[best, ]
 rownames(best.result) = NULL
 prediction.error <- best.result$RMSE
 prediction.rsquared <-best.result$Rsquared
+
 
 # Get the best model (model with best alpha that gives minimum RMSE)
 # By default, the train function chooses the model with the largest performance value
@@ -162,6 +180,7 @@ beta.hat <- predict.enet(final.enet.model,
                                      s=best.fraction,
                                      type="coefficient",
                                      mode="fraction")
+#print(beta.hat)
 
 ###################################################################
 # Make predictions using the final model selected by caret
