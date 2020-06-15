@@ -1,0 +1,8 @@
+The ordinary least squares (OLS) regression is the most popular statistical method to analyze data. For a number of reasons, the analyst may only have available a small sample of data to analyze.  Because of small sample size issue, it is typically not feasible to apply OLS to estimate the parameters of a regression model. Application of OLS to a regression model requires that the number of predictor variables (P) to exceed the number of observations (N) by at least one. However, the larger the number of observations compared to number of predictor variables, the more likely the model will have low variance and the more stable the parameter estimates will be.
+
+The elastic net (EN) regression method handles situations where the number of predictor variables is equal to or exceeds the number of observations. We also have ordinary least squares regression program available for use when the analyst has a data set with many more observations than predictor variables. Even with a data set with many observations, our comparison shows that the elastic net regression out performed ordinary least squares regression, based on prediction error and coefficient of determination (R-squared) criteria. The elastic net regression produced a lower prediction error and a higher coefficient of determination.
+
+References
+
+Zou, H. and Hastie, T. (2005) Regularization and Variable Selection via the Elastic Net. Journal of the Royal Statistical Society, Series B, 67, Part 2, 301-320. 
+Alboukadel, K. (2017) Penalized Regression: Ridge, Lasso and Elastic Net. Machine Learning Essentials: Practical Guide in R, ed 1, Lexington, KY: STHDA. 87-95.
