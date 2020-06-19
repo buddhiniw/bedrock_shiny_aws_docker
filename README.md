@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 bedrock_shiny_aws_docker
 
 Version two of the bedrock shiny app deployed on AWS via docker
@@ -128,3 +129,6 @@ sudo docker system prune --all --force --volumes
 
 
 
+=======
+# analytics_ecommerce
+>>>>>>> 02dabf16a1686b0a712050288a16bc888638c0f2
