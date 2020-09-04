@@ -62,7 +62,8 @@ shinyServer(function(input, output, session) {
             # Output: Tabset for instructions, raw data and analysis results
             tabsetPanel(id = "tabs",
                         tabPanel("Home", pre(includeText("introduction.txt"))),
-                        tabPanel("Instructions", pre(includeText("instructions.txt")))
+                        tabPanel("Instructions", pre(includeText("instructions.txt"))),
+                        tabPanel("Case Study", pre(includeText("case_study.txt")))
                         )
           )
         )
