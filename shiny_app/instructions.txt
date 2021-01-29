@@ -2,7 +2,7 @@ GUIDELINES ON THE INPUT CSV FILE
 
 The Input CSV data file should have the following format,
   
-  1. Comma seperated columns with first column being the dependent variable (e.g. Price/Rent ) and the rest being the Independent Variables.
+  1. Comma separated columns with first column being the dependent variable (e.g. Price/Rent ) and the rest being the Independent Variables.
   
   2. Last row of the data file should have the data required to make the prediction.
 
@@ -16,11 +16,11 @@ The Input CSV data file should have the following format,
    
 Following is an example of a valid input csv data file format used by this application:
 
-SellingPrice ,SellingDate,SiteAreaSF,GrossBldgAreaSF,OfficeSF,MezzanineYes1
+Selling Price ,Selling Date,Site Area SF,Gross BldgArea SF,Office SF,Mezzanine Yes1
 128000,42123, 8148,2976,1200,0
  49500,41760,11505,3200,1040,1
 163000,41808,10320,2880, 547,0
-122750,40555, 6120,3500, 500,0
+122750,40555, 6120,3500, 500,1
 255000,40787,14015,5400,1196,0
       ,42852,37500,5000,1400,1
  

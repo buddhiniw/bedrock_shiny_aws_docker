@@ -117,7 +117,8 @@ shinyServer(function(input, output, session) {
     
     tryCatch({
       dataIn <- read.csv(input$file1$datapath,header = T)
-
+      names(dataIn) <- sub("([a-z])([A-Z])", "\\1 \\2", names(dataIn))
+      dataIn <- dataIn
     },
     error = function(e) {
       # return a safeError if a parsing error occurs

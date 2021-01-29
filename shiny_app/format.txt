@@ -2,7 +2,7 @@ GUIDELINES ON THE INPUT CSV FILE
 
 The Input CSV data file should have the following format,
   
-  1. Comma seperated columns with first column being the dependent variable (e.g. Price/Rent ) and the rest being the Independent Variables.
+  1. Comma separated columns with first column being the dependent variable (e.g. Price/Rent ) and the rest being the Independent Variables.
   
   2. Last row of the data file should have the data required to make the prediction.
 

@@ -144,7 +144,7 @@ All measures of importance are scaled to have a maximum value of 100.")`
 ```
 `r sprintf("Notes:\n
 1) Errors are not given for the predicted coefficients since it is yet unclear how meaningful the std. errors are in penalized regression.\n   
-2) Some predictor varaiables may be set to 0 during and/or maybe entrirely removed from the final model based on the optimum tuning parameter values.\n
+2) Some predictor variables may be set to 0 during and/or maybe entirely removed from the final model based on the optimum tuning parameter values.\n
 3) Please, refer to Zou, H. and Hastie, T. (2005) Regularization and Variable Selection via the Elastic Net. Journal of the Royal Statistical Society, Series B, 67, Part 2, 301-320 for a further explanation.\n")`
 
 
